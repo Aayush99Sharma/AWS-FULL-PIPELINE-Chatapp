@@ -1,0 +1,37 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Updating package lists and installing dependencies..."
+      - apt-get update -y
+      - apt-get install -y git python3-venv python3-pip zip  # Added 'zip' to package installation
+
+      - echo "Cloning the repository..."
+      - git clone https://github.com/Aayush99Sharma/chatapp-AWS-codepipeline.git
+
+      - cd chatapp-AWS-codepipeline
+
+      - echo "Creating virtual environment..."
+      - python3 -m venv venv
+
+      - echo "Activating virtual environment..."
+      - . venv/bin/activate  # Using '.' instead of 'source' for compatibility
+
+      - echo "Installing requirements..."
+      - pip install -r requirements.txt
+
+  build:
+    commands:
+      - echo "Build phase completed."
+
+  post_build:
+    commands:
+      - echo "Packaging application into a ZIP file..."
+      - cd ..
+      - zip -r chatapp-build.zip chatapp-AWS-codepipeline
+
+artifacts:
+  files:
+    - chatapp-build.zip
+  discard-paths: no
