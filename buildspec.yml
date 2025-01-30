@@ -35,5 +35,6 @@ phases:
 
 artifacts:
   files:
+    - appspec.yml
     - chatapp-build.zip
   discard-paths: no
