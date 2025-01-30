@@ -5,18 +5,17 @@ phases:
     commands:
       - echo "Updating package lists and installing dependencies..."
       - apt-get update -y
-      - apt-get install -y git python3-venv python3-pip zip  # Added 'zip' to package installation
+      - apt-get install -y git python3-venv python3-pip zip awscli
 
       - echo "Cloning the repository..."
       - git clone https://github.com/Aayush99Sharma/chatapp-AWS-codepipeline.git
-
       - cd chatapp-AWS-codepipeline
 
       - echo "Creating virtual environment..."
       - python3 -m venv venv
 
       - echo "Activating virtual environment..."
-      - . venv/bin/activate  # Using '.' instead of 'source' for compatibility
+      - . venv/bin/activate
 
       - echo "Installing requirements..."
       - pip install -r requirements.txt
@@ -24,24 +23,21 @@ phases:
   build:
     commands:
       - echo "Build phase completed."
-
+      
   post_build:
     commands:
-      - echo "Generating unique filename for the build artifact..."
-      - BUILD_ID=$(date +%Y%m%d%H%M%S)  # Generates a timestamp like 20250130123045
-      - ARTIFACT_NAME="chatapp-build-$BUILD_ID.zip"
+      - echo "Fetching latest ZIP file from S3..."
+      - aws s3 cp s3://your-bucket-name/latest-chatapp-build.zip ./chatapp-build.zip  # Fetch latest ZIP
+      - echo "Extracting ZIP file..."
+      - unzip chatapp-build.zip -d /tmp/deploy  # Extract ZIP content to deploy folder
+      - echo "Running database migrations..."
+      - cd /tmp/deploy/chatapp-AWS-codepipeline  # Adjust based on your extracted folder structure
+      - python manage.py migrate  # Running migrations (Assuming Django app, adjust if needed)
       
-      - echo "Packaging application into a ZIP file..."
-      - cd ..
-      - zip -r "$ARTIFACT_NAME" chatapp-AWS-codepipeline
-
-      - echo "Uploading artifact to S3 bucket: aws-s3-bucket-codebuild"
-      - aws s3 cp "$ARTIFACT_NAME" s3://aws-s3-bucket-codebuild/
-
-      - echo "Exporting artifact name..."
-      - echo "ARTIFACT_NAME=$ARTIFACT_NAME" > artifact_metadata.txt  # Store artifact name for tracking
+      - echo "Deployment preparations completed. Preparing for deployment."
+      - echo "Triggering AWS CodeDeploy deployment..."
 
 artifacts:
   files:
-    - "**/*"
+    - chatapp-build.zip
   discard-paths: no
