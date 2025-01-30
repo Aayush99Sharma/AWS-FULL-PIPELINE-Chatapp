@@ -36,9 +36,10 @@ phases:
       - zip -r $ARTIFACT_NAME chatapp-AWS-codepipeline
 
       - echo "Exporting artifact name..."
-      - export ARTIFACT_NAME=$ARTIFACT_NAME  # Correct way to store the variable
+      - echo "ARTIFACT_NAME=$ARTIFACT_NAME" > artifact_metadata.txt  # Store artifact name in a file for reference
 
 artifacts:
   files:
-    - "**/*.zip"  # Ensures the unique artifact gets uploaded
+    - "$ARTIFACT_NAME"  # Ensures correct artifact gets uploaded
+    - "artifact_metadata.txt"  # Optional: Upload metadata for tracking
   discard-paths: no
