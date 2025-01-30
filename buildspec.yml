@@ -31,7 +31,7 @@ phases:
       - cd ..
       - echo "Listing contents before zipping..."
       - ls -la AWS-FULL-PIPELINE-Chatapp  # Verify the directory exists and its contents
-      - zip -r chatapp-build.zip AWS-FULL-PIPELINE-Chatapp  # Create the zip file
+      - zip -r chatapp-build.zip AWS-FULL-PIPELINE-Chatapp appspec.yml
 
 artifacts:
   files:
