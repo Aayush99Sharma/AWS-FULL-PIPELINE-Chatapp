@@ -36,9 +36,9 @@ phases:
       - zip -r $ARTIFACT_NAME chatapp-AWS-codepipeline
 
       - echo "Exporting artifact name..."
-      - echo "ARTIFACT_NAME=$ARTIFACT_NAME" >> $CODEBUILD_ENV_FILE  # Save artifact name for later use
+      - export ARTIFACT_NAME=$ARTIFACT_NAME  # Correct way to store the variable
 
 artifacts:
   files:
-    - $ARTIFACT_NAME  # Use dynamically generated artifact name
+    - "**/*.zip"  # Ensures the unique artifact gets uploaded
   discard-paths: no
