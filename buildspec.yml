@@ -27,11 +27,18 @@ phases:
 
   post_build:
     commands:
+      - echo "Generating unique filename for the build artifact..."
+      - BUILD_ID=$(date +%Y%m%d%H%M%S)  # Generates a timestamp like 20250130123045
+      - ARTIFACT_NAME="chatapp-build-$BUILD_ID.zip"
+      
       - echo "Packaging application into a ZIP file..."
       - cd ..
-      - zip -r chatapp-build.zip chatapp-AWS-codepipeline
+      - zip -r $ARTIFACT_NAME chatapp-AWS-codepipeline
+
+      - echo "Exporting artifact name..."
+      - echo "ARTIFACT_NAME=$ARTIFACT_NAME" >> $CODEBUILD_ENV_FILE  # Save artifact name for later use
 
 artifacts:
   files:
-    - chatapp-build.zip
+    - $ARTIFACT_NAME  # Use dynamically generated artifact name
   discard-paths: no
