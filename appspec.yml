@@ -3,7 +3,7 @@ os: linux
 
 hooks:
   BeforeInstall:
-    - location: scripts/git_pull.sh
+    - location: scripts/sync_chatapp.sh
       runas: chatapp
 
     - location: scripts/activate_venv_and_install_requirements.sh
