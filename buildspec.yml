@@ -35,8 +35,11 @@ phases:
       - cd ..
       - zip -r $ARTIFACT_NAME chatapp-AWS-codepipeline
 
+      - echo "Uploading artifact to S3 bucket: aws-s3-bucket-codebuild"
+      - aws s3 cp $ARTIFACT_NAME s3://aws-s3-bucket-codebuild/  # Uploads to main directory
+
       - echo "Exporting artifact name..."
-      - echo "ARTIFACT_NAME=$ARTIFACT_NAME" > artifact_metadata.txt  # Store artifact name in a file for reference
+      - echo "ARTIFACT_NAME=$ARTIFACT_NAME" > artifact_metadata.txt  # Store artifact name for tracking
 
 artifacts:
   files:
