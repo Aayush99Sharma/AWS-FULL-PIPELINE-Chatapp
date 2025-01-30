@@ -5,17 +5,18 @@ phases:
     commands:
       - echo "Updating package lists and installing dependencies..."
       - apt-get update -y
-      - apt-get install -y git python3-venv python3-pip zip awscli
+      - apt-get install -y git python3-venv python3-pip zip  # Added 'zip' to package installation
 
       - echo "Cloning the repository..."
       - git clone https://github.com/Aayush99Sharma/chatapp-AWS-codepipeline.git
+
       - cd chatapp-AWS-codepipeline
 
       - echo "Creating virtual environment..."
       - python3 -m venv venv
 
       - echo "Activating virtual environment..."
-      - . venv/bin/activate
+      - . venv/bin/activate  # Using '.' instead of 'source' for compatibility
 
       - echo "Installing requirements..."
       - pip install -r requirements.txt
@@ -23,19 +24,12 @@ phases:
   build:
     commands:
       - echo "Build phase completed."
-      
+
   post_build:
     commands:
-      - echo "Fetching latest ZIP file from S3..."
-      - aws s3 cp s3://your-bucket-name/latest-chatapp-build.zip ./chatapp-build.zip  # Fetch latest ZIP
-      - echo "Extracting ZIP file..."
-      - unzip chatapp-build.zip -d /tmp/deploy  # Extract ZIP content to deploy folder
-      - echo "Running database migrations..."
-      - cd /tmp/deploy/chatapp-AWS-codepipeline  # Adjust based on your extracted folder structure
-      - python manage.py migrate  # Running migrations (Assuming Django app, adjust if needed)
-      
-      - echo "Deployment preparations completed. Preparing for deployment."
-      - echo "Triggering AWS CodeDeploy deployment..."
+      - echo "Packaging application into a ZIP file..."
+      - cd ..
+      - zip -r chatapp-build.zip chatapp-AWS-codepipeline
 
 artifacts:
   files:
