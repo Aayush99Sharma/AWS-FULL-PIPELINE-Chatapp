@@ -2,8 +2,9 @@ version: 0.0
 os: linux
 
 files:
-  - source: /  # This is the folder inside the zip
-    destination: /new_chatapp  # This is where the content should be deployed on the server
+  - source: /
+    destination: /new_chatapp
+    file_exists_behavior: OVERWRITE  # Add this line
 
 hooks:
   AfterInstall:
