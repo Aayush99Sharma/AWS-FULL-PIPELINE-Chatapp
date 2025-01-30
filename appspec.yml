@@ -4,13 +4,9 @@ os: linux
 files:
   - source: /
     destination: /new_chatapp
-    file_exists_behavior: OVERWRITE  # Add this line
+    file_exists_behavior: OVERWRITE  # Ensure files get replaced
 
 hooks:
-  AfterInstall:
-    - location: scripts/activate_venv_and_install_requirements.sh
-      runas: chatapp
-
   ApplicationStart:
     - location: scripts/migrate_and_restart_django.sh
       runas: chatapp
