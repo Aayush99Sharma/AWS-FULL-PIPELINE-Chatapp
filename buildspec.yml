@@ -29,7 +29,9 @@ phases:
     commands:
       - echo "Packaging application into a ZIP file..."
       - cd ..
-      - zip -r chatapp-build.zip chatapp-AWS-codepipeline
+      - echo "Listing contents before zipping..."
+      - ls -la chatapp-AWS-codepipeline  # Verify the directory exists and its contents
+      - zip -r chatapp-build.zip chatapp-AWS-codepipeline  # Create the zip file
 
 artifacts:
   files:
