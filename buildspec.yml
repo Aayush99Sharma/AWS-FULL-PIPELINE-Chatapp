@@ -10,7 +10,7 @@ phases:
       - echo "Cloning the repository..."
       - git clone https://github.com/Aayush99Sharma/AWS-FULL-PIPELINE-Chatapp.git
 
-      - cd chatapp-AWS-codepipeline
+      - cd AWS-FULL-PIPELINE-Chatapp
 
       - echo "Creating virtual environment..."
       - python3 -m venv venv
