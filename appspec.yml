@@ -6,10 +6,6 @@ files:
     destination: /new_chatapp  # This is where the content should be deployed on the server
 
 hooks:
-  BeforeInstall:
-    - location: scripts/sync_chatapp.sh
-      runas: chatapp
-
   AfterInstall:
     - location: scripts/activate_venv_and_install_requirements.sh
       runas: chatapp
