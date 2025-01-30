@@ -33,16 +33,15 @@ phases:
       
       - echo "Packaging application into a ZIP file..."
       - cd ..
-      - zip -r $ARTIFACT_NAME chatapp-AWS-codepipeline
+      - zip -r "$ARTIFACT_NAME" chatapp-AWS-codepipeline
 
       - echo "Uploading artifact to S3 bucket: aws-s3-bucket-codebuild"
-      - aws s3 cp $ARTIFACT_NAME s3://aws-s3-bucket-codebuild/  # Uploads to main directory
+      - aws s3 cp "$ARTIFACT_NAME" s3://aws-s3-bucket-codebuild/
 
       - echo "Exporting artifact name..."
       - echo "ARTIFACT_NAME=$ARTIFACT_NAME" > artifact_metadata.txt  # Store artifact name for tracking
 
 artifacts:
   files:
-    - "$ARTIFACT_NAME"  # Ensures correct artifact gets uploaded
-    - "artifact_metadata.txt"  # Optional: Upload metadata for tracking
+    - "**/*"
   discard-paths: no
