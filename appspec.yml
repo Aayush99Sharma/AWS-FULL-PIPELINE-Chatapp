@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 
 files:
-  - source: /AWS-FULL-PIPELINE-Chatapp  # This is the folder inside the zip
+  - source: /  # This is the folder inside the zip
     destination: /new_chatapp  # This is where the content should be deployed on the server
 
 hooks:
